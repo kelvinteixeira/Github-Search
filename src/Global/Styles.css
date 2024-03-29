@@ -1,11 +1,16 @@
 @font-face {
-  font-family: "DuckCome";
-  src: url("../assets/fontes/Blunty.otf") format("truetype");
+  font-family: "OstrichSansBlack";
+  src: url("../assets/fontes/OstrichSansBlack.otf") format("truetype");
 }
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
+  font-weight: bold !important;
+}
+
+body {
+  background-color: #f5fffa;
 }

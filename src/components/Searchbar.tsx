@@ -13,11 +13,16 @@ export const Searchbar = () => {
   return (
     <Grid justifyContent={"center"} alignItems={"center"}>
       <FormControl variant="outlined">
-        <InputLabel htmlFor="searchbar">Search for a github user</InputLabel>
+        <InputLabel
+          sx={{ fontFamily: "OstrichSansBlack !important" }}
+          htmlFor="searchbar"
+        >
+          Search for a github user
+        </InputLabel>
         <OutlinedInput
           sx={{
             width: 600,
-            borderRadius: 10
+            borderRadius: 10,
           }}
           id="searchbar"
           endAdornment={
