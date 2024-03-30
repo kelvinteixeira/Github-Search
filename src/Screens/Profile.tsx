@@ -20,9 +20,9 @@ export const Profile = () => {
 
   useEffect(() => {
     api.get(`/${"kelvinteixeira"}`).then((response) => setUser(response.data));
-    console.log(user);
   }, []);
-
+  
+  console.log(user);
   if (!user) {
     return null;
   }

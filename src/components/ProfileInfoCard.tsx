@@ -51,10 +51,14 @@ export const ProfileInfoCard = (props: ProfileCardProps) => {
         </Grid>
       </Grid>
 
-      <Grid container alignItems={'center'}>
-        <MailIcon />
-        <Typography marginLeft={1} color={'primary'} fontSize={12}>{props.email}</Typography>
-      </Grid>
+      {props.email ? (
+        <Grid container alignItems={"center"}>
+          <MailIcon />
+          <Typography marginLeft={1} color={"primary"} fontSize={12}>
+            {props.email}
+          </Typography>
+        </Grid>
+      ) : null}
     </Grid>
   );
 };
