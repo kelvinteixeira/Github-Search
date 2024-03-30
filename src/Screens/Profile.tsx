@@ -15,9 +15,9 @@ import GitHubLogo from "../assets/images/GitHubLogo.png";
 import { api } from "../lib/axios";
 import { RepositoriesInfo } from "../components/RepositoriesInfo";
 import SearchIcon from "@mui/icons-material/Search";
-
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import SorryMessage from "../assets/images/sorrySearch.png";
 
 type ProfileProps = {
   name: string;
@@ -38,14 +38,12 @@ export const Profile = () => {
   const [user, setUser] = useState<ProfileProps>();
   const [repositories, setRepositories] = useState<RepositoriesProps>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortBy, setSortBy] = useState<"name" | "stars">("name");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState<"name" | "stars">("stars");
+  const [showNoResults, setShowNoResults] = useState<boolean>(false);
 
   useEffect(() => {
     api.get(`/${"kelvinteixeira"}`).then((response) => setUser(response.data));
-  }, []);
-
-  useEffect(() => {
     api
       .get(`/${"kelvinteixeira"}/repos`)
       .then((response) => setRepositories(response.data));
@@ -53,7 +51,7 @@ export const Profile = () => {
 
   const filteredRepositories = repositories
     .filter((repo) =>
-      repo.name.toLowerCase().includes(searchTerm.toLowerCase())
+      repo.name.toLowerCase().startsWith(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
       if (sortBy === "name") {
@@ -67,8 +65,12 @@ export const Profile = () => {
       }
     });
 
+  useEffect(() => {
+    setShowNoResults(filteredRepositories.length === 0 && searchTerm !== "");
+  }, [filteredRepositories, searchTerm]);
+
   return (
-    <Grid container>
+    <Grid container justifyContent={"center"}>
       <Grid
         container
         justifyContent={"center"}
@@ -97,7 +99,7 @@ export const Profile = () => {
 
         <Grid
           container
-          justifyContent={"space-between"}
+          justifyContent={"center"}
           sx={{ borderBottom: "1px solid lightgray", paddingBottom: 2 }}
         >
           <FormControl variant="outlined">
@@ -110,7 +112,7 @@ export const Profile = () => {
             <OutlinedInput
               fullWidth
               sx={{
-                width: 400,
+                width: 600,
                 borderRadius: 5,
               }}
               id="searchbar"
@@ -125,35 +127,58 @@ export const Profile = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </FormControl>
-          <Button
-            sx={{ borderBottom: "1px solid lightgray" }}
-            onClick={() => {
-              setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-              setSortBy("name");
-            }}
-          >
-            Name {sortBy === "name" && (sortOrder === "asc" ? "↑" : "↓")}
-          </Button>
-          <Button
-            sx={{ borderBottom: "1px solid lightgray" }}
-            onClick={() => {
-              setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-              setSortBy("stars");
-            }}
-          >
-            Stars{" "}
-            {sortBy === "stars" &&
-              (sortOrder === "asc" ? (
-                <KeyboardDoubleArrowUpIcon />
-              ) : (
-                <KeyboardDoubleArrowDownIcon />
-              ))}
-          </Button>
+          <Grid container justifyContent={"center"}>
+            <Button
+              sx={{
+                textTransform: "none",
+                borderBottom: "1px solid lightgray",
+              }}
+              onClick={() => {
+                setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                setSortBy("name");
+              }}
+            >
+              Name {sortBy === "name" && (sortOrder === "asc" ? "A-z" : "Z-a")}
+            </Button>
+            <Button
+              sx={{
+                textTransform: "none",
+                borderBottom: "1px solid lightgray",
+              }}
+              onClick={() => {
+                setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                setSortBy("stars");
+              }}
+            >
+              Stars{" "}
+              {sortBy === "stars" &&
+                (sortOrder === "asc" ? (
+                  <KeyboardDoubleArrowUpIcon />
+                ) : (
+                  <KeyboardDoubleArrowDownIcon />
+                ))}
+            </Button>
+          </Grid>
         </Grid>
 
-        {filteredRepositories.map((repository) => (
-          <RepositoriesInfo {...repository} key={repository.name} />
-        ))}
+        {showNoResults ? (
+          <Grid
+            container
+            direction={"column"}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <img src={SorryMessage} alt="Image of a sorry emoji face" />
+            <Typography variant="body1" align="center" mt={2}>
+              Sorry! No repository was found with that name. Please try a
+              different search.
+            </Typography>
+          </Grid>
+        ) : (
+          filteredRepositories.map((repository) => (
+            <RepositoriesInfo {...repository} key={repository.name} />
+          ))
+        )}
       </Grid>
     </Grid>
   );
