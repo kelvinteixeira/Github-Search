@@ -10,7 +10,7 @@ type ProfileCardProps = {
   bio: string;
 };
 
-export const ProfileInfoCard = (props: ProfileCardProps) => {
+export const ProfileInfo = (props: ProfileCardProps) => {
   return (
     <Grid
       item
