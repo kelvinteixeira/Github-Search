@@ -8,8 +8,14 @@ import {
 } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
+import { ChangeEvent } from "react";
 
-export const Searchbar = () => {
+type SearchbarProps = {
+  title: string
+  onChange?: (e:ChangeEvent<HTMLInputElement>) => void
+}
+
+export const Searchbar = (props: SearchbarProps) => {
   return (
     <Grid justifyContent={"center"} alignItems={"center"}>
       <FormControl variant="outlined">
@@ -17,9 +23,10 @@ export const Searchbar = () => {
           sx={{ fontFamily: "OstrichSansBlack !important" }}
           htmlFor="searchbar"
         >
-          Search for a github user
+          {props.title}
         </InputLabel>
         <OutlinedInput
+        onChange={props.onChange}
           sx={{
             width: 600,
             borderRadius: 10,
@@ -32,7 +39,7 @@ export const Searchbar = () => {
               </IconButton>
             </InputAdornment>
           }
-          label="Search for a github user"
+          label={props.title}
         />
       </FormControl>
     </Grid>

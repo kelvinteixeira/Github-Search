@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { ProfileInfo } from "../components/ProfileInfo";
 import { Searchbar } from "../components/Searchbar";
 import GitHubLogo from "../assets/images/GitHubLogo.png";
 import { api } from "../lib/axios";
 import { RepositoriesInfo } from "../components/RepositoriesInfo";
-import SearchIcon from "@mui/icons-material/Search";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import SorryMessage from "../assets/images/sorrySearch.png";
@@ -79,7 +69,7 @@ export const Profile = () => {
         marginBottom={6}
       >
         <img src={GitHubLogo} alt="GitHub Logo" style={{ height: "80px" }} />
-        <Searchbar />
+        <Searchbar title={"Search for a GitHub user"} />
       </Grid>
 
       <Grid item xs={3}>
@@ -102,31 +92,10 @@ export const Profile = () => {
           justifyContent={"center"}
           sx={{ borderBottom: "1px solid lightgray", paddingBottom: 2 }}
         >
-          <FormControl variant="outlined">
-            <InputLabel
-              sx={{ fontFamily: "OstrichSansBlack !important" }}
-              htmlFor="searchbar"
-            >
-              Search a repository
-            </InputLabel>
-            <OutlinedInput
-              fullWidth
-              sx={{
-                width: 600,
-                borderRadius: 5,
-              }}
-              id="searchbar"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton edge="end">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Search a repository"
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </FormControl>
+          <Searchbar
+            title={"Search for a repository"}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Grid container justifyContent={"center"}>
             <Button
               sx={{
