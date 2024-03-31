@@ -4,7 +4,7 @@ import { ProfileInfo } from "../components/ProfileInfo";
 import { Searchbar } from "../components/Searchbar";
 import GitHubLogo from "../assets/images/GitHubLogo.png";
 import { api } from "../lib/axios";
-import { RepositoriesInfo } from "../components/RepositoriesInfo";
+import { RepositoriesPanel } from "../components/RepositoriesPanel";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import SorryMessage from "../assets/images/sorrySearch.png";
@@ -33,9 +33,11 @@ export const Profile = () => {
   const [showNoResults, setShowNoResults] = useState<boolean>(false);
 
   useEffect(() => {
-    api.get(`/${"kelvinteixeira"}`).then((response) => setUser(response.data));
     api
-      .get(`/${"kelvinteixeira"}/repos`)
+      .get(`users/${"kelvinteixeira"}`)
+      .then((response) => setUser(response.data));
+    api
+      .get(`users/${"kelvinteixeira"}/repos`)
       .then((response) => setRepositories(response.data));
   }, []);
 
@@ -82,7 +84,7 @@ export const Profile = () => {
           bio={user?.bio || ""}
         />
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={8} sx={{ borderLeft: "1px solid lightgray", padding: 2 }}>
         <Typography fontSize={30} align="center">
           Repositories
         </Typography>
@@ -145,7 +147,7 @@ export const Profile = () => {
           </Grid>
         ) : (
           filteredRepositories.map((repository) => (
-            <RepositoriesInfo {...repository} key={repository.name} />
+            <RepositoriesPanel {...repository} key={repository.name} />
           ))
         )}
       </Grid>

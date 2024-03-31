@@ -19,7 +19,7 @@ export const ProfileInfo = (props: ProfileCardProps) => {
       alignContent={"center"}
       direction={"column"}
       gap={3}
-      sx={{ borderRight: "1px solid lightgrey", width: 300, padding: 2 }}
+      sx={{ width: 300, padding: 2 }}
     >
       <Grid container justifyContent={"center"}>
         <Avatar

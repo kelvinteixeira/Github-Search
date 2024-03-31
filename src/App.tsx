@@ -4,6 +4,7 @@ import { grey } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import { Profile } from "./screens/Profile";
+import { RepositoryInfo } from "./screens/ReposityInfo";
 
 const theme = createTheme({
   palette: {
@@ -15,7 +16,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* <Home /> */}
-      <Profile />
+      {/* <Profile /> */}
+      <RepositoryInfo/>
     </ThemeProvider>
   );
 }

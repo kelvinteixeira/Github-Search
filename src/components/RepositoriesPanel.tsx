@@ -7,7 +7,7 @@ type RepositoriesProps = {
   language: string;
 };
 
-export const RepositoriesInfo = (props: RepositoriesProps) => {
+export const RepositoriesPanel = (props: RepositoriesProps) => {
   return (
     <Grid
       container
