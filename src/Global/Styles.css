@@ -14,3 +14,14 @@
 body {
   background-color: #f5fffa;
 }
+
+.button-repository {
+  display: flex;
+  justify-content: end;
+  color: black;
+  font-size: 18;
+}
+
+.button-repository:hover {
+  color: rgb(76, 73, 73);
+}

@@ -1,8 +1,9 @@
-import { Container, Grid, Link, Typography } from "@mui/material";
+import { Button, Container, Grid, Link, Typography } from "@mui/material";
 import { Searchbar } from "../components/Searchbar";
 import GitHubLogo from "../assets/images/GitHubLogo.png";
 import { useEffect, useState } from "react";
 import { api } from "../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 type RepositoryInfoProps = {
   name: string;
@@ -14,6 +15,7 @@ type RepositoryInfoProps = {
 
 export const RepositoryInfo = () => {
   const [repository, setRepository] = useState<RepositoryInfoProps>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -59,7 +61,11 @@ export const RepositoryInfo = () => {
         <Grid container>
           <Typography>Description: &nbsp;</Typography>
           <Typography color={"primary"}>
-            <Link href={repository?.description} target="_blank" rel="noreferrer">
+            <Link
+              href={repository?.description}
+              target="_blank"
+              rel="noreferrer"
+            >
               {repository?.description}
             </Link>
           </Typography>
@@ -76,6 +82,13 @@ export const RepositoryInfo = () => {
             </Link>
           </Typography>
         </Grid>
+        <Button
+          onClick={() => navigate("/profile")}
+          variant="contained"
+          sx={{ textTransform: "none", marginBottom: 2 }}
+        >
+          Back
+        </Button>
       </Grid>
     </Container>
   );

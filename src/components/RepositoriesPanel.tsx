@@ -1,5 +1,6 @@
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useNavigate } from "react-router-dom";
 
 type RepositoriesProps = {
   name: string;
@@ -8,6 +9,7 @@ type RepositoriesProps = {
 };
 
 export const RepositoriesPanel = (props: RepositoriesProps) => {
+  const navigate = useNavigate();
   return (
     <Grid
       container
@@ -17,7 +19,20 @@ export const RepositoriesPanel = (props: RepositoriesProps) => {
         padding: 1,
       }}
     >
-      <Typography fontSize={20}>{props.name}</Typography>
+      <Button
+        onClick={() => navigate("/repository")}
+        className="button-repository"
+        variant="text"
+        sx={{
+          display: "flex",
+          justifyContent: "start",
+          color: "gray",
+          fontSize: 18,
+          textDecoration: "underline",
+        }}
+      >
+        {props.name}
+      </Button>
       <Typography color={"primary"} fontSize={11} marginRight={2}>
         {props.language}
       </Typography>
