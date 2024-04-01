@@ -1,15 +1,11 @@
 import { Button, Grid, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
+import { RepositoriesProps } from "../../Global/Types";
 
-type RepositoriesProps = {
-  name: string;
-  stargazers_count: number;
-  language: string;
-};
-
-export const RepositoriesPanel = (props: RepositoriesProps) => {
+export const RepositoriesList = (props: RepositoriesProps) => {
   const navigate = useNavigate();
+
   return (
     <Grid
       container
@@ -33,9 +29,11 @@ export const RepositoriesPanel = (props: RepositoriesProps) => {
       >
         {props.name}
       </Button>
+
       <Typography color={"primary"} fontSize={11} marginRight={2}>
         {props.language}
       </Typography>
+
       <Grid container justifyContent={"end"} alignItems={"center"}>
         <StarIcon sx={{ color: "#FFD700" }} />
         <Typography align="right" fontSize={11} color={"primary"}>

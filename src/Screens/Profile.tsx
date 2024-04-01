@@ -1,43 +1,34 @@
 import { useEffect, useState } from "react";
 import { Button, Grid, Typography } from "@mui/material";
-import { ProfileInfo } from "../components/ProfileInfo";
+import { ProfileInfo } from "../components/ProfileInfo/ProfileInfo";
 import { Searchbar } from "../components/Searchbar";
 import GitHubLogo from "../assets/images/GitHubLogo.png";
 import { api } from "../lib/axios";
-import { RepositoriesPanel } from "../components/RepositoriesPanel";
+import { RepositoriesList } from "../components/RepositoriesList/RepositoriesList";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import SorryMessage from "../assets/images/sorrySearch.png";
-
-type ProfileProps = {
-  name: string;
-  email: string;
-  followers: string;
-  following: string;
-  avatar_url: string;
-  bio?: string | null;
-};
-
-type RepositoriesProps = {
-  name: string;
-  stargazers_count: number;
-  language: string;
-}[];
+import { useUserName } from "../Hooks/useUserContext";
+import { ProfileResponseType, RepositoriesResponseType } from "../Global/Types";
+import { ProfileInfoSkeleton } from "../components/ProfileInfo/ProfileInfoSkeleton";
+import { RepositoriesListSkeleton } from "../components/RepositoriesList/RepositoriesListSkeleton";
 
 export const Profile = () => {
-  const [user, setUser] = useState<ProfileProps>();
-  const [repositories, setRepositories] = useState<RepositoriesProps>([]);
+  const [userInfo, setUserInfo] = useState<ProfileResponseType>();
+  const [repositories, setRepositories] = useState<RepositoriesResponseType>(
+    []
+  );
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [sortBy, setSortBy] = useState<"name" | "stars">("stars");
   const [showNoResults, setShowNoResults] = useState<boolean>(false);
 
+  const { user } = useUserName();
+
   useEffect(() => {
+    api.get(`users/${user}`).then((response) => setUserInfo(response.data));
     api
-      .get(`users/${"kelvinteixeira"}`)
-      .then((response) => setUser(response.data));
-    api
-      .get(`users/${"kelvinteixeira"}/repos`)
+      .get(`users/${user}/repos`)
       .then((response) => setRepositories(response.data));
   }, []);
 
@@ -71,18 +62,22 @@ export const Profile = () => {
         marginBottom={6}
       >
         <img src={GitHubLogo} alt="GitHub Logo" style={{ height: "80px" }} />
-        <Searchbar title={"Search for a GitHub user"} />
+        <Searchbar title={"Search for a GitHub user"} value={""} />
       </Grid>
 
       <Grid item xs={3}>
-        <ProfileInfo
-          name={user?.name || ""}
-          email={user?.email || ""}
-          following={user?.following || ""}
-          followers={user?.followers || ""}
-          image={user?.avatar_url || ""}
-          bio={user?.bio || ""}
-        />
+        {!userInfo ? (
+          <ProfileInfoSkeleton />
+        ) : (
+          <ProfileInfo
+            name={userInfo?.name || ""}
+            email={userInfo?.email || ""}
+            following={userInfo?.following || ""}
+            followers={userInfo?.followers || ""}
+            image={userInfo?.avatar_url || ""}
+            bio={userInfo?.bio || ""}
+          />
+        )}
       </Grid>
       <Grid item xs={8} sx={{ borderLeft: "1px solid lightgray", padding: 2 }}>
         <Typography fontSize={30} align="center">
@@ -146,9 +141,13 @@ export const Profile = () => {
             </Typography>
           </Grid>
         ) : (
-          filteredRepositories.map((repository) => (
-            <RepositoriesPanel {...repository} key={repository.name} />
-          ))
+          filteredRepositories.map((repository) => {
+            return filteredRepositories ? (
+              <RepositoriesList {...repository} key={repository.name} />
+            ) : (
+              <RepositoriesListSkeleton />
+            );
+          })
         )}
       </Grid>
     </Grid>

@@ -1,14 +1,8 @@
 import { Avatar, Grid, Typography } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
+import { ProfileCardProps } from "../../Global/Types";
 
-type ProfileCardProps = {
-  name: string;
-  email: string;
-  following: string;
-  followers: string;
-  image: string;
-  bio: string;
-};
+
 
 export const ProfileInfo = (props: ProfileCardProps) => {
   return (

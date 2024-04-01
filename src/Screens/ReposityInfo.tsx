@@ -4,6 +4,7 @@ import GitHubLogo from "../assets/images/GitHubLogo.png";
 import { useEffect, useState } from "react";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
+import { useRepositoryName, useUserName } from "../Hooks/useUserContext";
 
 type RepositoryInfoProps = {
   name: string;
@@ -14,13 +15,15 @@ type RepositoryInfoProps = {
 };
 
 export const RepositoryInfo = () => {
-  const [repository, setRepository] = useState<RepositoryInfoProps>();
+  const [repositoryInfo, setRepositoryInfo] = useState<RepositoryInfoProps>();
   const navigate = useNavigate();
+  const { user } = useUserName();
+  const { repository } = useRepositoryName();
 
   useEffect(() => {
     api
-      .get(`repos/${"kelvinteixeira"}/${"Next-Pokedex"}`)
-      .then((response) => setRepository(response.data));
+      .get(`repos/${user}/${repository}`)
+      .then((response) => setRepositoryInfo(response.data));
   }, []);
 
   return (
@@ -50,35 +53,39 @@ export const RepositoryInfo = () => {
         </Typography>
         <Grid container>
           <Typography>Name: &nbsp;</Typography>
-          <Typography color={"primary"}>{repository?.name}</Typography>
+          <Typography color={"primary"}>{repositoryInfo?.name}</Typography>
         </Grid>
         <Grid container>
           <Typography>Total stars: &nbsp;</Typography>
           <Typography color={"primary"}>
-            {repository?.stargazers_count}
+            {repositoryInfo?.stargazers_count}
           </Typography>
         </Grid>
         <Grid container>
           <Typography>Description: &nbsp;</Typography>
           <Typography color={"primary"}>
             <Link
-              href={repository?.description}
+              href={repositoryInfo?.description}
               target="_blank"
               rel="noreferrer"
             >
-              {repository?.description}
+              {repositoryInfo?.description}
             </Link>
           </Typography>
         </Grid>
         <Grid container>
           <Typography>Principal language: &nbsp;</Typography>
-          <Typography color={"primary"}>{repository?.language}</Typography>
+          <Typography color={"primary"}>{repositoryInfo?.language}</Typography>
         </Grid>
         <Grid container>
           <Typography>Repository link: &nbsp;</Typography>
           <Typography color={"primary"}>
-            <Link href={repository?.html_url} target="_blank" rel="noreferrer">
-              {repository?.html_url}
+            <Link
+              href={repositoryInfo?.html_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {repositoryInfo?.html_url}
             </Link>
           </Typography>
         </Grid>
