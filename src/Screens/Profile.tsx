@@ -130,9 +130,9 @@ export const Profile = () => {
         {showNoResults ? (
           <Grid
             container
-            direction={"column"}
-            justifyContent={"center"}
-            alignItems={"center"}
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
           >
             <img src={SorryMessage} alt="Image of a sorry emoji face" />
             <Typography variant="body1" align="center" mt={2}>
@@ -141,13 +141,15 @@ export const Profile = () => {
             </Typography>
           </Grid>
         ) : (
-          filteredRepositories.map((repository) => {
-            return filteredRepositories ? (
-              <RepositoriesList {...repository} key={repository.name} />
+          <Grid container direction="column">
+            {filteredRepositories.length > 0 ? (
+              filteredRepositories.map((repository) => (
+                <RepositoriesList {...repository} key={repository.name} />
+              ))
             ) : (
               <RepositoriesListSkeleton />
-            );
-          })
+            )}
+          </Grid>
         )}
       </Grid>
     </Grid>
