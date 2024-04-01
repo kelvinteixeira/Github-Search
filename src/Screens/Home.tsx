@@ -2,9 +2,11 @@ import { Button, Grid } from "@mui/material";
 import { Searchbar } from "../components/Searchbar";
 import GitHubLogo from "../assets/images/GitHubLogo.png";
 import { useNavigate } from "react-router-dom";
+import { useUserName } from "../Hooks/useUserContext";
 
 export const Home = () => {
   const navigate = useNavigate();
+  const {user, setUser} = useUserName()
   return (
     <Grid
       sx={{ marginTop: 15 }}
@@ -16,7 +18,11 @@ export const Home = () => {
       <Grid>
         <img src={GitHubLogo} alt="GitHub Logo" style={{ height: "200px" }} />
       </Grid>
-      <Searchbar title={"Search for a GitHub user"} />
+      <Searchbar
+        value={user}
+        onChange={(e) => setUser(e.target.value)}
+        title={"Search for a GitHub user"}
+      />
 
       <Button
         onClick={() => navigate("/profile")}

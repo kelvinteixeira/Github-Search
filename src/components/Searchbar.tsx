@@ -11,9 +11,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { ChangeEvent } from "react";
 
 type SearchbarProps = {
-  title: string
-  onChange?: (e:ChangeEvent<HTMLInputElement>) => void
-}
+  title: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+};
 
 export const Searchbar = (props: SearchbarProps) => {
   return (
@@ -26,7 +27,8 @@ export const Searchbar = (props: SearchbarProps) => {
           {props.title}
         </InputLabel>
         <OutlinedInput
-        onChange={props.onChange}
+        value={props.value}
+          onChange={props.onChange}
           sx={{
             width: 600,
             borderRadius: 10,
