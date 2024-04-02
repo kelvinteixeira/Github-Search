@@ -1,10 +1,9 @@
-import "./Global/Styles.css";
 import { grey } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import { AppRoutes } from "./routes";
-import { UserContext } from "./context/UserContext";
-import { useState } from "react";
+import { UserProvider } from "./context/UserContext";
+import "./Global/Styles.css";
 
 const theme = createTheme({
   palette: {
@@ -13,12 +12,11 @@ const theme = createTheme({
 });
 
 function App() {
-  const [user, setUser] = useState<string>("");
   return (
     <ThemeProvider theme={theme}>
-      <UserContext.Provider value={{user, setUser}}>
+      <UserProvider>
         <AppRoutes />
-      </UserContext.Provider>
+      </UserProvider>
     </ThemeProvider>
   );
 }

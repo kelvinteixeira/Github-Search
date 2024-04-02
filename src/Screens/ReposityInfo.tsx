@@ -1,10 +1,10 @@
 import { Button, Container, Grid, Link, Typography } from "@mui/material";
 import { Searchbar } from "../components/Searchbar";
 import GitHubLogo from "../assets/images/GitHubLogo.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
-import { useRepositoryName, useUserName } from "../Hooks/useUserContext";
+import { UserContext } from "../context/UserContext";
 
 type RepositoryInfoProps = {
   name: string;
@@ -17,12 +17,11 @@ type RepositoryInfoProps = {
 export const RepositoryInfo = () => {
   const [repositoryInfo, setRepositoryInfo] = useState<RepositoryInfoProps>();
   const navigate = useNavigate();
-  const { user } = useUserName();
-  const { repository } = useRepositoryName();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     api
-      .get(`repos/${user}/${repository}`)
+      .get(`repos/${user?.name}/${"123"}`)
       .then((response) => setRepositoryInfo(response.data));
   }, []);
 

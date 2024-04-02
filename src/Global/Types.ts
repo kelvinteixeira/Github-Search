@@ -1,12 +1,12 @@
-export type UserContextType = {
-  user: string;
-  setUser: (name: string) => void;
-}
+export type User = {
+  name: string;
+  setName: (value: string) => void;
+};
 
 export type RepositoryContextType = {
   repository: string;
   setRepository: (name: string) => void;
-}
+};
 
 export type ProfileCardProps = {
   name: string;

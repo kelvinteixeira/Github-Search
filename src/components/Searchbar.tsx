@@ -14,6 +14,7 @@ type SearchbarProps = {
   title: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  onClick?: () => void;
 };
 
 export const Searchbar = (props: SearchbarProps) => {
@@ -27,7 +28,7 @@ export const Searchbar = (props: SearchbarProps) => {
           {props.title}
         </InputLabel>
         <OutlinedInput
-        value={props.value}
+          value={props.value}
           onChange={props.onChange}
           sx={{
             width: 600,
@@ -36,7 +37,7 @@ export const Searchbar = (props: SearchbarProps) => {
           id="searchbar"
           endAdornment={
             <InputAdornment position="end">
-              <IconButton edge="end">
+              <IconButton onClick={props.onClick} edge="end">
                 <SearchIcon />
               </IconButton>
             </InputAdornment>

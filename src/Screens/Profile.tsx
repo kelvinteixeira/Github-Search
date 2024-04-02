@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Grid, Typography } from "@mui/material";
 import { ProfileInfo } from "../components/ProfileInfo/ProfileInfo";
 import { Searchbar } from "../components/Searchbar";
@@ -8,33 +8,36 @@ import { RepositoriesList } from "../components/RepositoriesList/RepositoriesLis
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import SorryMessage from "../assets/images/sorrySearch.png";
-import { useUserName } from "../Hooks/useUserContext";
 import { ProfileResponseType, RepositoriesResponseType } from "../Global/Types";
 import { ProfileInfoSkeleton } from "../components/ProfileInfo/ProfileInfoSkeleton";
 import { RepositoriesListSkeleton } from "../components/RepositoriesList/RepositoriesListSkeleton";
+import { UserContext } from "../context/UserContext";
 
 export const Profile = () => {
   const [userInfo, setUserInfo] = useState<ProfileResponseType>();
   const [repositories, setRepositories] = useState<RepositoriesResponseType>(
     []
   );
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchNewUser, setSearchNewUser] = useState<string>("");
+  const [searchRepository, setSearchRepository] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [sortBy, setSortBy] = useState<"name" | "stars">("stars");
   const [showNoResults, setShowNoResults] = useState<boolean>(false);
 
-  const { user } = useUserName();
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    api.get(`users/${user}`).then((response) => setUserInfo(response.data));
     api
-      .get(`users/${user}/repos`)
+      .get(`users/${user?.name}`)
+      .then((response) => setUserInfo(response.data));
+    api
+      .get(`users/${user?.name}/repos`)
       .then((response) => setRepositories(response.data));
-  }, []);
+  }, [user]);
 
   const filteredRepositories = repositories
     .filter((repo) =>
-      repo.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+      repo.name.toLowerCase().startsWith(searchRepository.toLowerCase())
     )
     .sort((a, b) => {
       if (sortBy === "name") {
@@ -49,8 +52,15 @@ export const Profile = () => {
     });
 
   useEffect(() => {
-    setShowNoResults(filteredRepositories.length === 0 && searchTerm !== "");
-  }, [filteredRepositories, searchTerm]);
+    setShowNoResults(
+      filteredRepositories.length === 0 && searchRepository !== ""
+    );
+  }, [filteredRepositories, searchRepository]);
+
+  const handleSearch = () => {
+    setUser({ name: searchNewUser });
+    setSearchNewUser("");
+  };
 
   return (
     <Grid container justifyContent={"center"}>
@@ -62,7 +72,12 @@ export const Profile = () => {
         marginBottom={6}
       >
         <img src={GitHubLogo} alt="GitHub Logo" style={{ height: "80px" }} />
-        <Searchbar title={"Search for a GitHub user"} value={""} />
+        <Searchbar
+          title={"Search for a GitHub user"}
+          value={searchNewUser}
+          onChange={(e) => setSearchNewUser(e.target.value)}
+          onClick={handleSearch}
+        />
       </Grid>
 
       <Grid item xs={3}>
@@ -91,7 +106,7 @@ export const Profile = () => {
         >
           <Searchbar
             title={"Search for a repository"}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchRepository(e.target.value)}
           />
           <Grid container justifyContent={"center"}>
             <Button
