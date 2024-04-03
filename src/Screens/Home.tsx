@@ -24,7 +24,9 @@ export const Home = () => {
         onChange={(e) => setUser({ name: e.target.value })}
         title={"Search for a GitHub user"}
         onClick={() => {
-          navigate("/profile");
+          user?.name == "" || user?.name == null
+            ? navigate("/pagenotfound")
+            : navigate("/profile");
         }}
         width={600}
       />
