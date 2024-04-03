@@ -15,6 +15,7 @@ type SearchbarProps = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   onClick?: () => void;
+  width: number;
 };
 
 export const Searchbar = (props: SearchbarProps) => {
@@ -31,7 +32,7 @@ export const Searchbar = (props: SearchbarProps) => {
           value={props.value}
           onChange={props.onChange}
           sx={{
-            width: 600,
+            width: props.width,
             borderRadius: 10,
           }}
           id="searchbar"

@@ -3,12 +3,7 @@ export type User = {
   setName: (value: string) => void;
 };
 
-export type RepositoryContextType = {
-  repository: string;
-  setRepository: (name: string) => void;
-};
-
-export type ProfileCardProps = {
+export type ProfileProps = {
   name: string;
   email: string;
   following: string;
@@ -26,14 +21,21 @@ export type ProfileResponseType = {
   bio?: string | null;
 };
 
-export type RepositoriesResponseType = {
-  name: string;
-  stargazers_count: number;
-  language: string;
-}[];
-
 export type RepositoriesProps = {
   name: string;
+  description?: string;
   stargazers_count: number;
   language: string;
+  html_url?: string;
 };
+
+
+
+export type RepositoriesResponseType = {
+  name: string;
+  description?: string;
+  stargazers_count: number;
+  language: string;
+  html_url?: string;
+}[];
+

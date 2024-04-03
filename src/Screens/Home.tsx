@@ -23,7 +23,10 @@ export const Home = () => {
         value={user?.name}
         onChange={(e) => setUser({ name: e.target.value })}
         title={"Search for a GitHub user"}
-        onClick={() => navigate("/profile")}
+        onClick={() => {
+          navigate("/profile");
+        }}
+        width={600}
       />
     </Grid>
   );

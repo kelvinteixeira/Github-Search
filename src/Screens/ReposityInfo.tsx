@@ -5,17 +5,10 @@ import { useContext, useEffect, useState } from "react";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-
-type RepositoryInfoProps = {
-  name: string;
-  description: string;
-  stargazers_count: number;
-  language: string;
-  html_url: string;
-};
+import { RepositoriesResponseType } from "../Global/Types";
 
 export const RepositoryInfo = () => {
-  const [repositoryInfo, setRepositoryInfo] = useState<RepositoryInfoProps>();
+  const [repositoryInfo, setRepositoryInfo] = useState<RepositoriesResponseType>();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
 
@@ -41,7 +34,7 @@ export const RepositoryInfo = () => {
           marginBottom={6}
         >
           <img src={GitHubLogo} alt="GitHub Logo" style={{ height: "80px" }} />
-          <Searchbar title={"Search for a GitHub user"} />
+          <Searchbar title={"Search for a GitHub user"} width={600} />
         </Grid>
         <Typography
           fontSize={30}

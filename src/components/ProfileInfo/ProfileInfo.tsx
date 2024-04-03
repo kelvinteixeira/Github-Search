@@ -1,8 +1,9 @@
 import { Avatar, Grid, Typography } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
-import { ProfileCardProps } from "../../Global/Types";
+import { ProfileProps } from "../../Global/Types";
 
-export const ProfileInfo = (props: ProfileCardProps) => {
+export const ProfileInfo = (props: ProfileProps) => {
+
   return (
     <Grid
       item

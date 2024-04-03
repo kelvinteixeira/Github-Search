@@ -15,9 +15,8 @@ import { UserContext } from "../context/UserContext";
 
 export const Profile = () => {
   const [userInfo, setUserInfo] = useState<ProfileResponseType>();
-  const [repositories, setRepositories] = useState<RepositoriesResponseType>(
-    []
-  );
+  const [repositoriesData, setRepositoriesData] =
+    useState<RepositoriesResponseType>([]);
   const [searchNewUser, setSearchNewUser] = useState<string>("");
   const [searchRepository, setSearchRepository] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -30,12 +29,12 @@ export const Profile = () => {
     api
       .get(`users/${user?.name}`)
       .then((response) => setUserInfo(response.data));
-    api
-      .get(`users/${user?.name}/repos`)
-      .then((response) => setRepositories(response.data));
+    api.get(`users/${user?.name}/repos`).then((response) => {
+      setRepositoriesData(response.data);
+    });
   }, [user]);
 
-  const filteredRepositories = repositories
+  const filteredRepositories = repositoriesData
     .filter((repo) =>
       repo.name.toLowerCase().startsWith(searchRepository.toLowerCase())
     )
@@ -65,18 +64,24 @@ export const Profile = () => {
   return (
     <Grid container justifyContent={"center"}>
       <Grid
+        item
         container
         justifyContent={"center"}
         alignItems={"center"}
         margin={2}
         marginBottom={6}
       >
-        <img src={GitHubLogo} alt="GitHub Logo" style={{ height: "80px" }} />
+        <img
+          src={GitHubLogo}
+          alt="GitHub Logo"
+          style={{ height: "80px", marginBottom: 10 }}
+        />
         <Searchbar
           title={"Search for a GitHub user"}
           value={searchNewUser}
           onChange={(e) => setSearchNewUser(e.target.value)}
           onClick={handleSearch}
+          width={600}
         />
       </Grid>
 
@@ -107,6 +112,7 @@ export const Profile = () => {
           <Searchbar
             title={"Search for a repository"}
             onChange={(e) => setSearchRepository(e.target.value)}
+            width={500}
           />
           <Grid container justifyContent={"center"}>
             <Button
