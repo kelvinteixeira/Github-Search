@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Home } from "./screens/Home";
-import { Profile } from "./screens/Profile";
-import { RepositoryInfo } from "./screens/ReposityInfo";
+import { Home } from "./Screens/Home";
+import { Profile } from "./Screens/Profile";
+import { RepositoryInfo } from "./Screens/ReposityInfo";
 import { PageNotFound } from "./components/PageNotFound";
 
 export function AppRoutes() {
