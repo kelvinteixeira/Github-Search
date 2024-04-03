@@ -5,16 +5,16 @@ import { useContext, useEffect, useState } from "react";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { RepositoriesResponseType } from "../Global/Types";
+import { RepositoriesProps } from "../Global/Types";
 
 export const RepositoryInfo = () => {
-  const [repositoryInfo, setRepositoryInfo] = useState<RepositoriesResponseType>();
+  const [repositoryInfo, setRepositoryInfo] = useState<RepositoriesProps>();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     api
-      .get(`repos/${user?.name}/${"123"}`)
+      .get(`repos/${user?.name}/${"Next-Pokedex"}`)
       .then((response) => setRepositoryInfo(response.data));
   }, []);
 

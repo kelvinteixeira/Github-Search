@@ -29,8 +29,6 @@ export type RepositoriesProps = {
   html_url?: string;
 };
 
-
-
 export type RepositoriesResponseType = {
   name: string;
   description?: string;
@@ -38,4 +36,3 @@ export type RepositoriesResponseType = {
   language: string;
   html_url?: string;
 }[];
-
